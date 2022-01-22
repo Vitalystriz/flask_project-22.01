@@ -3,10 +3,13 @@ import sqlite3
 from werkzeug.exceptions import abort
 app=Flask(__name__)
 
-
-
 def get_db_connection():
     conn=sqlite3.connect("database.db")
+    conn.row_factory=sqlite3.Row
+    return conn
+
+def get_db_connection2():
+    conn=sqlite3.connect("database2.db")
     conn.row_factory=sqlite3.Row
     return conn
 
@@ -44,6 +47,21 @@ def create():
             flash("Tittle is required")
         conn= get_db_connection()
         conn.execute("INSERT INTO posts (title,content) VALUES(?,?)", (tittle, content))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('draw_main_page'))
+
+    return render_template("create.html")
+@app.route("/sign_in", methods=("GET", "POST"))
+def sign_in():
+    if request.method=="POST":
+        name=request.form["name"]
+        second_name = request.form["second_name"]
+
+        if not name:
+            flash("Tittle is required")
+        conn= get_db_connection()
+        conn.execute("INSERT INTO users (name,second_name) VALUES(?,?)", (name, second_name))
         conn.commit()
         conn.close()
         return redirect(url_for('draw_main_page'))
