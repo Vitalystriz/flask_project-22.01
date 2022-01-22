@@ -6,9 +6,9 @@ with open("schema.sql") as f:
     connection.executescript(f.read())
 
 cursor=connection.cursor()
-cursor.execute("INSERT INTO posts (title,content,description) VALUES(?,?,?)",("Пост1 "," Контент","Описание1"))
+cursor.execute("INSERT INTO posts (title,content) VALUES(?,?)",("Пост1 "," Контент"))
 cursor=connection.cursor()
-cursor.execute("INSERT INTO posts (title,content,description) VALUES(?,?,?)",("Пост2 "," Контент2","Описание2"))
+cursor.execute("INSERT INTO posts (title,content) VALUES(?,?)",("Пост2 "," Контент2"))
 
 connection.commit()
 connection.close()
