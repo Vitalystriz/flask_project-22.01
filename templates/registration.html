@@ -8,7 +8,7 @@
 
     {{ form.csrf_token() }}
 
-    {% for field in form if field.name != "csrf_token" %}
+    {% for field in form  %}
   <p>{{ field.label() }}</p>
   <p>{{ field }}
       {% for error in field.errors %}

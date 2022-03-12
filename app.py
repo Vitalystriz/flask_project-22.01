@@ -18,10 +18,13 @@ def about():
 @app.route('/<int:post_id>')
 def post(post_id):
     post_blog = get_post(post_id)
+    post_comment = get_comment(post_id) #ЗАКОМЕНТИТЬ
     # user=get_users(user)
     if post_blog is None:
         abort(404)
-    return render_template('post.html', post=post_blog)
+    return render_template('post.html', post=post_blog, comment = post_comment)
+
+
 
 @app.route("/create", methods=("GET", "POST"))
 def create():

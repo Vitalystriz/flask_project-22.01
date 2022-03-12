@@ -5,7 +5,11 @@
 
     <span class="badge badge-primary">{{ post['created'] }}</span>
     <p>{{ post['content'] }}</p>
+    {% for comment in comments %}
+        <span class="badge badge-info">{{comment["created"]}}</span>
+        <p>{{ comment["text"] }}</p>
 
+    {% endfor %}
 
 
 {% endblock %}
