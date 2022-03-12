@@ -2,9 +2,10 @@ from flask import Flask, render_template,request,flash,redirect,url_for
 from werkzeug.exceptions import abort
 from forms import User_registration_form
 from repositories import *
-app=Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']="sqlite:///C:/Users/geras/PycharmProjects/flask_project-22.01/database.db"
 
+app=Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI']="sqlite:///C:/Users/geras/PycharmProjects/flask_project-22.01/database1.db"
+app.config["SECRET_KEY"] = "15454555555555"
 
 @app.route("/")
 def draw_main_page():
@@ -58,15 +59,23 @@ def registration():
         name=form.name.data
         email=form.email.data
         password= form.password.data
-        password_again= form.passwordRepeatField.data
+        password_again= form. passwordRepeatFieled.data
         if password!=password_again:
             flash("Enter equal password")
         else:
             print(f'{name} {email}')
-            add_user(name,email,password)
-            return redirect(url_for("draw_main_page"))
-        return render_template("registration.html", form=form)
 
+            add_user(name,email,password)
+
+            return redirect(url_for("draw_main_page"))
+    return render_template("registration.html", form=form)
+
+
+#
+# @app.route("/personal_cabinet")
+# @login_required
+# def personal_cabinet():
+#     return render_template('personal.html')
 
 
 if __name__=="__main__":

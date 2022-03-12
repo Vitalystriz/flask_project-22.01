@@ -6,7 +6,7 @@ def get_db_connection():
     return conn
 def add_user(name,email,password):
     conn=get_db_connection()
-    conn.execute("INSERT INTO users(name, email, password) VALUES (?,?,?)",(name,email,password))
+    conn.execute("INSERT INTO users(name, email, password_hash) VALUES (?,?,?)",(name,email,password))
     conn.commit()
     conn.close()
 def get_all_posts():
@@ -33,6 +33,14 @@ def insert_into_posts(title,content):
     conn.execute("INSERT INTO posts (title,content) VALUES(?,?)", (title, content))
     conn.commit()
     conn.close()
+def login_by_name(user_id):
+    conn3 = get_db_connection()
+    login = conn3.execute('SELECT login FROM users WHERE id = ?',
+                            (user_id,)).fetchone()
+    conn3.close()
+    return login
+
+
 # def insert_into_users(name, second_name):
 #     conn = get_db_connection()
 #     conn.execute("INSERT INTO users (name,second_name) VALUES(?,?)", (name, second_name))
