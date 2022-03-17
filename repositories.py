@@ -21,12 +21,17 @@ def get_post(post_id):
                         (post_id,)).fetchone()
     conn.close()
     return post
-def get_comment(post_id):
-    conn2 = get_db_connection()
-    comment = conn2.execute('SELECT text FROM comments WHERE post_id = ?',
+def get_comments(post_id):
+    conn = get_db_connection()
+    comment = conn.execute('SELECT content FROM comments WHERE post_id = ?',
                         (post_id,)).fetchone()
-    conn2.close()
-    return comment
+
+    comments = conn.execute('SELECT * FROM comments WHERE post_id = ?',
+                        (post_id,)).fetchall()
+    print(comments)
+    conn.close()
+
+    return comments
 
 def insert_into_posts(title,content):
     conn = get_db_connection()
@@ -39,6 +44,15 @@ def login_by_name(user_id):
                             (user_id,)).fetchone()
     conn3.close()
     return login
+def add_comment(post_id,text):
+    conn = get_db_connection()
+    print(post_id,text)
+    conn.execute("INSERT INTO comments (post_id,content) VALUES(?,?)", (post_id, text))
+    conn.commit()
+    print(conn.execute('SELECT content FROM comments WHERE post_id = ?',
+                        (post_id,)).fetchone())
+    conn.close()
+
 
 
 # def insert_into_users(name, second_name):

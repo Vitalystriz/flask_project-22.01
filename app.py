@@ -1,11 +1,14 @@
-from flask import Flask, render_template,request,flash,redirect,url_for
-from werkzeug.exceptions import abort
-from forms import User_registration_form
-from repositories import *
 
+from flask import Flask, render_template,request,flash,redirect,url_for
 app=Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']="sqlite:///C:/Users/geras/PycharmProjects/flask_project-22.01/database1.db"
-app.config["SECRET_KEY"] = "15454555555555"
+app.config["SECRET_KEY"] = "155555545456524"
+from werkzeug.exceptions import abort
+from forms import User_registration_form,User_log_in_form, add_Comment
+# from alchemy_repositories import add_comment,get_all_comments,get_post
+from repositories import *
+
+
 
 @app.route("/")
 def draw_main_page():
@@ -19,12 +22,24 @@ def about():
 @app.route('/<int:post_id>')
 def post(post_id):
     post_blog = get_post(post_id)
-    post_comment = get_comment(post_id) #ЗАКОМЕНТИТЬ
+    post_comment = get_comments(post_id=post_id) #ЗАКОМЕНТИТЬ
+
     # user=get_users(user)
     if post_blog is None:
         abort(404)
-    return render_template('post.html', post=post_blog, comment = post_comment)
 
+    return render_template('post.html', post=post_blog, comments = post_comment)
+
+@app.route('/<int:post_id>/comments/create',methods = ('GET','POST'))
+def create_comment(post_id):
+    form = add_Comment()
+    if form.validate_on_submit():
+        text = form.text.data
+        print(text)
+        add_comment(post_id=post_id,text=text)
+        return redirect(url_for('post', post_id=post_id))
+
+    return render_template('create_comment.html', form=form)
 
 
 @app.route("/create", methods=("GET", "POST"))

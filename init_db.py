@@ -9,7 +9,9 @@ cursor=connection.cursor()
 cursor.execute("INSERT INTO posts (title,content) VALUES(?,?)",("Пост1 "," Контент"))
 cursor=connection.cursor()
 cursor.execute("INSERT INTO posts (title,content) VALUES(?,?)",("Пост2 "," Контент2"))
-cursor.execute("INSERT INTO comments (text,) ",("Коментарий"))
+cursor=connection.cursor()
+cursor.execute("INSERT INTO comments (post_id,content) VALUES(?,?)",(1," Комент"))
+
 
 connection.commit()
 connection.close()

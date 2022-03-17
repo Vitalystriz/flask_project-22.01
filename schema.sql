@@ -23,8 +23,8 @@ DROP TABLE IF EXISTS comments;
 CREATE TABLE comments (
     comment_id INTEGER PRIMARY KEY,
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    text  TEXT NOT NULL,
-    post_id INTEGER NOT NULL,
+    content  TEXT NOT NULL,
+    post_id INTEGER  NOT NULL,
         FOREIGN KEY (post_id)
                       REFERENCES posts(post_id)
 
