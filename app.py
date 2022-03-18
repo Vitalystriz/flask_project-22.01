@@ -54,6 +54,22 @@ def create():
         return redirect(url_for('draw_main_page'))
 
     return render_template("create.html")
+
+@app.route("/<int:post_id>/edit", methods=("GET", "POST"))
+def edit(post_id):
+    if request.method=="POST":
+        title=request.form["title"]
+        content = request.form["content"]
+        update_post(post_id=post_id,title=title,content=content)
+        return redirect(url_for('draw_main_page'))
+
+    return render_template("create.html")
+@app.route("/<int:post_id>/delete",methods=("POST",))
+def delete(post_id):
+    delete_post(post_id=post_id)
+    return redirect(url_for('draw_main_page'))
+
+
 @app.route("/sign_in", methods=("GET", "POST"))
 def sign_in():
     if request.method=="POST":

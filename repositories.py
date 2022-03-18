@@ -52,6 +52,17 @@ def add_comment(post_id,text):
     print(conn.execute('SELECT content FROM comments WHERE post_id = ?',
                         (post_id,)).fetchone())
     conn.close()
+def delete_post(post_id):
+    conn = get_db_connection()
+    conn.execute("DELETE FROM posts WHERE post_id=?",(post_id,))
+    conn.commit()
+    conn.close
+def update_post(post_id,title,content):
+    conn = get_db_connection()
+    conn.execute("UPDATE posts SET title=? WHERE post_id=?",(title,post_id))
+    conn.execute("UPDATE posts SET content=? WHERE post_id=?", (content,post_id))
+    conn.commit()
+    conn.close
 
 
 
