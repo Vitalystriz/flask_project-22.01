@@ -74,11 +74,11 @@ def delete(post_id):
 def sign_in():
     if request.method=="POST":
         name=request.form["name"]
-        second_name = request.form["second_name"]
+        password = request.form["password"]
 
         if not name:
             flash("name  is required")
-        # insert_into_users(name, second_name)
+
         return redirect(url_for('draw_main_page'))
 
     return render_template("sign_in.html")
@@ -91,16 +91,19 @@ def registration():
         email=form.email.data
         password= form.password.data
         password_again= form. passwordRepeatFieled.data
+        hash = get_password_hash(password)
         if password!=password_again:
             flash("Enter equal password")
         else:
             print(f'{name} {email}')
 
-            add_user(name,email,password)
+            add_user(name,email,hash)
 
             return redirect(url_for("draw_main_page"))
     return render_template("registration.html", form=form)
-
+def get_password_hash(password):
+    password_hash = hash(password)
+    return password_hash
 
 #
 # @app.route("/personal_cabinet")
@@ -109,5 +112,5 @@ def registration():
 #     return render_template('personal.html')
 
 
-if __name__=="__main__":
+if __name__=="__app__":
     app.run()

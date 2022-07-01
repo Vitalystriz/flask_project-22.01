@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1> {% block title %} Welcome to Blog  {% endblock %}</h1>
+    <h1> {% block title %} Welcome to Formula 1 Blog  {% endblock %}</h1>
     {% for post in posts %}
          <a href="{{ url_for('post', post_id=post['post_id']) }}">
             <h2>{{ post['title'] }}</h2>
+             <span class="badge badge-primary">{{ post['created'] }}</span>
         </a>
-        <span class="badge badge-primary">{{ post['created'] }}</span>
+
 
 
 

@@ -36,7 +36,7 @@ def get_all_posts():
     return Post.query.all()
 def get_post(post_id):
     return Post.query.get(post_id)
-def get_users(user):
+def get_users(name):
     pass
 def insert_into_posts(title,content):
     new_post=Post(title=title,content=content)
