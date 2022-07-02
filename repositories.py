@@ -63,6 +63,11 @@ def update_post(post_id,title,content):
     conn.execute("UPDATE posts SET content=? WHERE post_id=?", (content,post_id))
     conn.commit()
     conn.close
+def get_user_hash(name):
+    conn = get_db_connection()
+    password_hash = conn.execute("SELECT password_hash FROM posts WHERE name=?",(name,)).fetchone()
+    conn.close()
+    return password_hash
 
 
 

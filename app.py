@@ -78,8 +78,10 @@ def sign_in():
 
         if not name:
             flash("name  is required")
-
-        return redirect(url_for('draw_main_page'))
+        elif get_password_hash(password)!=get_user_hash(name):
+            flash("There is a wrong password")
+        else:
+            return redirect(url_for('draw_main_page'))
 
     return render_template("sign_in.html")
 
