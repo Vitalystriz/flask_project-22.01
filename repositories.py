@@ -4,9 +4,9 @@ def get_db_connection():
     conn=sqlite3.connect("C:/Users/geras/PycharmProjects/flask_project-22.01/database1.db")
     conn.row_factory=sqlite3.Row
     return conn
-def add_user(name,email,password):
+def add_user(name,login,email,password):
     conn=get_db_connection()
-    conn.execute("INSERT INTO users(name, email, password_hash) VALUES (?,?,?)",(name,email,password))
+    conn.execute("INSERT INTO users(name,login, email, password_hash) VALUES (?,?,?,?)",(name,login,email,password))
     conn.commit()
     conn.close()
 def get_all_posts():

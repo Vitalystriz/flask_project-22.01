@@ -7,17 +7,43 @@ from werkzeug.exceptions import abort
 from forms import User_registration_form,User_log_in_form, add_Comment
 # from alchemy_repositories import add_comment,get_all_comments,get_post
 from repositories import *
+name =''
+password_global = ''
+
+@app.route("/", methods=("GET", "POST"))
+def sign_in():
+
+    if request.method=="POST":
+        global name
+        name=request.form["name"]
+        global password_global
+        password_global = request.form["password"]
 
 
+        if not name:
+            flash("name  is required")
+        elif get_password_hash(password_global)!=get_user_hash(name):
+            flash("There is a wrong password")
+        else:
+            return redirect(url_for('draw_main_page'))
 
-@app.route("/")
+    return render_template("sign_in.html")
+
+
+@app.route("/main")
 def draw_main_page():
+    # return redirect(url_for("login.html"))
+    if get_password_hash(password=password_global) != get_user_hash(name):
+        return redirect(url_for("sign_in"))
+
     posts=get_all_posts()
     return render_template("index.html",posts=posts)
 
 @app.route("/about")
 def about():
     return render_template("about.html")
+
+
 
 @app.route('/<int:post_id>')
 def post(post_id):
@@ -70,26 +96,14 @@ def delete(post_id):
     return redirect(url_for('draw_main_page'))
 
 
-@app.route("/sign_in", methods=("GET", "POST"))
-def sign_in():
-    if request.method=="POST":
-        name=request.form["name"]
-        password = request.form["password"]
 
-        if not name:
-            flash("name  is required")
-        elif get_password_hash(password)!=get_user_hash(name):
-            flash("There is a wrong password")
-        else:
-            return redirect(url_for('draw_main_page'))
-
-    return render_template("sign_in.html")
 
 @app.route('/register/', methods=["get", "post"])
 def registration():
     form = User_registration_form()
     if form.validate_on_submit():
         name=form.name.data
+        login = form.name.data
         email=form.email.data
         password= form.password.data
         password_again= form. passwordRepeatFieled.data
@@ -99,7 +113,7 @@ def registration():
         else:
             print(f'{name} {email}')
 
-            add_user(name,email,hash)
+            add_user(name,login,email,hash)
 
             return redirect(url_for("draw_main_page"))
     return render_template("registration.html", form=form)
