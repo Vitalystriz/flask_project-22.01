@@ -3,6 +3,20 @@ import sqlite3
 def get_db_connection():
     conn=sqlite3.connect("C:/Users/geras/PycharmProjects/flask_project-22.01/database1.db")
     conn.row_factory=sqlite3.Row
+    # conn.execute("DELETE  FROM users ")
+    conn.commit()
+
+    cursor = conn.cursor()
+    result = cursor.execute('SELECT * FROM users')
+    rows = result.fetchall()
+    for row in rows:
+        # print(row[0]+row[1]+row[2]+row[3]+row[4]+row[5])
+        # print(row['Name'])
+        # print(row['name'])
+
+        print(row[3])
+    print("end")
+
     return conn
 def add_user(name,login,email,password):
     conn=get_db_connection()
@@ -64,10 +78,17 @@ def update_post(post_id,title,content):
     conn.commit()
     conn.close
 def get_user_hash(name):
+
     conn = get_db_connection()
-    password_hash = conn.execute("SELECT password_hash FROM posts WHERE name=?",(name,)).fetchone()
+    cursor = conn.cursor()
+    result = cursor.execute("SELECT * FROM users WHERE name=?",(name,)).fetchone()
+    rows = result[3]
+    # password_hash = conn.execute("SELECT * FROM users WHERE name=?",(name,)).fetchall()
+    print(rows)
+    print("pas")
+
     conn.close()
-    return password_hash
+    return rows
 
 
 

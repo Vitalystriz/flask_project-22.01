@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS posts;
 
+DROP TABLE IF EXISTS posts;
 CREATE TABLE posts (
     post_id INTEGER PRIMARY KEY,
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -7,7 +7,7 @@ CREATE TABLE posts (
     content TEXT NOT NULL
 
 );
-DROP TABLE IF EXISTS users;
+DROP TABLE  users;
 CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
@@ -19,6 +19,7 @@ CREATE TABLE users (
 
 
 );
+SELECT * FROM users;
 DROP TABLE IF EXISTS comments;
 CREATE TABLE comments (
     comment_id INTEGER PRIMARY KEY,

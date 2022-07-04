@@ -22,7 +22,11 @@ def sign_in():
 
         if not name:
             flash("name  is required")
-        elif get_password_hash(password_global)!=get_user_hash(name):
+        elif password_global!=get_user_hash(name):
+            print(get_user_hash(name))
+            print(get_password_hash(password_global))
+
+
             flash("There is a wrong password")
         else:
             return redirect(url_for('draw_main_page'))
@@ -32,12 +36,21 @@ def sign_in():
 
 @app.route("/main")
 def draw_main_page():
+
     # return redirect(url_for("login.html"))
-    if get_password_hash(password=password_global) != get_user_hash(name):
+    if password_global != get_user_hash(name):
         return redirect(url_for("sign_in"))
 
     posts=get_all_posts()
     return render_template("index.html",posts=posts)
+# @app.route("/main")
+# def draw_main_page_after_registration():
+#     # return redirect(url_for("login.html"))
+#     # if get_password_hash(password=password_global) != get_user_hash(name):
+#     #     return redirect(url_for("sign_in"))
+#
+#     posts=get_all_posts()
+#     return render_template("index.html",posts=posts)
 
 @app.route("/about")
 def about():
@@ -103,17 +116,18 @@ def registration():
     form = User_registration_form()
     if form.validate_on_submit():
         name=form.name.data
-        login = form.name.data
+        login = form.login.data
         email=form.email.data
         password= form.password.data
         password_again= form. passwordRepeatFieled.data
         hash = get_password_hash(password)
+        print(hash)
         if password!=password_again:
             flash("Enter equal password")
         else:
-            print(f'{name} {email}')
+            print(f'{name} {password}')
 
-            add_user(name,login,email,hash)
+            add_user(name,login,email,password)
 
             return redirect(url_for("draw_main_page"))
     return render_template("registration.html", form=form)
