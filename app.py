@@ -118,18 +118,19 @@ def registration():
         name=form.name.data
         login = form.login.data
         email=form.email.data
-        password= form.password.data
+        global password_global
+        password_global= form.password.data
         password_again= form. passwordRepeatFieled.data
-        hash = get_password_hash(password)
+        hash = get_password_hash(password_global)
         print(hash)
-        if password!=password_again:
+        if password_global!=password_again:
             flash("Enter equal password")
         else:
-            print(f'{name} {password}')
+            print(f'{name} {password_global}')
 
-            add_user(name,login,email,password)
+            add_user(name,login,email,password_global)
 
-            return redirect(url_for("draw_main_page"))
+            return redirect(url_for("sign_in"))
     return render_template("registration.html", form=form)
 def get_password_hash(password):
     password_hash = hash(password)

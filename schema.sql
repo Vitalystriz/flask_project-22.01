@@ -7,7 +7,8 @@ CREATE TABLE posts (
     content TEXT NOT NULL
 
 );
-DROP TABLE  users;
+
+DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
@@ -19,7 +20,7 @@ CREATE TABLE users (
 
 
 );
-SELECT * FROM users;
+
 DROP TABLE IF EXISTS comments;
 CREATE TABLE comments (
     comment_id INTEGER PRIMARY KEY,
