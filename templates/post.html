@@ -5,16 +5,17 @@
 
 
     <span class="badge badge-primary">{{ post['created'] }}</span>
-    <p></p>
-     <a href="{{ url_for('edit', post_id=post['post_id']) }}">
-                <span class="badge badge-warning">Edit</span>
-            </a>
+
 <p></p>
     <form action="{{ url_for('delete', post_id=post['post_id']) }}" method="POST">
     <input type="submit" value="Delete Post"
             class="btn btn-danger btn-sm"
             onclick="return confirm('Are you sure you want to delete this post?')">
 </form>
+<p></p>
+     <a href="{{ url_for('edit', post_id=post['post_id']) }}">
+                <span class="badge badge-warning">Edit</span>
+            </a>
     <h6>{{ post['content'] }}</h6>
     <h3>Comments</h3>
 

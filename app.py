@@ -7,17 +7,56 @@ from werkzeug.exceptions import abort
 from forms import User_registration_form,User_log_in_form, add_Comment
 # from alchemy_repositories import add_comment,get_all_comments,get_post
 from repositories import *
+name =''
+password_global = ''
+
+@app.route("/", methods=("GET", "POST"))
+def sign_in():
+
+    if request.method=="POST":
+        global name
+        name=request.form["name"]
+        global password_global
+        password_global = request.form["password"]
 
 
+        if not name:
+            flash("name  is required")
+        elif password_global!=get_user_hash(name):
+            print(get_user_hash(name))
+            print(get_password_hash(password_global))
 
-@app.route("/")
+
+            flash("There is a wrong password")
+        else:
+            return redirect(url_for('draw_main_page'))
+
+    return render_template("sign_in.html")
+
+
+@app.route("/main")
 def draw_main_page():
+
+    # return redirect(url_for("login.html"))
+    if password_global != get_user_hash(name):
+        return redirect(url_for("sign_in"))
+
     posts=get_all_posts()
     return render_template("index.html",posts=posts)
+# @app.route("/main")
+# def draw_main_page_after_registration():
+#     # return redirect(url_for("login.html"))
+#     # if get_password_hash(password=password_global) != get_user_hash(name):
+#     #     return redirect(url_for("sign_in"))
+#
+#     posts=get_all_posts()
+#     return render_template("index.html",posts=posts)
 
 @app.route("/about")
 def about():
     return render_template("about.html")
+
+
 
 @app.route('/<int:post_id>')
 def post(post_id):
@@ -70,38 +109,28 @@ def delete(post_id):
     return redirect(url_for('draw_main_page'))
 
 
-@app.route("/sign_in", methods=("GET", "POST"))
-def sign_in():
-    if request.method=="POST":
-        name=request.form["name"]
-        password = request.form["password"]
 
-        if not name:
-            flash("name  is required")
-        elif get_password_hash(password)!=get_user_hash(name):
-            flash("There is a wrong password")
-        else:
-            return redirect(url_for('draw_main_page'))
-
-    return render_template("sign_in.html")
 
 @app.route('/register/', methods=["get", "post"])
 def registration():
     form = User_registration_form()
     if form.validate_on_submit():
         name=form.name.data
+        login = form.login.data
         email=form.email.data
-        password= form.password.data
+        global password_global
+        password_global= form.password.data
         password_again= form. passwordRepeatFieled.data
-        hash = get_password_hash(password)
-        if password!=password_again:
+        hash = get_password_hash(password_global)
+        print(hash)
+        if password_global!=password_again:
             flash("Enter equal password")
         else:
-            print(f'{name} {email}')
+            print(f'{name} {password_global}')
 
-            add_user(name,email,hash)
+            add_user(name,login,email,password_global)
 
-            return redirect(url_for("draw_main_page"))
+            return redirect(url_for("sign_in"))
     return render_template("registration.html", form=form)
 def get_password_hash(password):
     password_hash = hash(password)

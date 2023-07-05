@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS posts;
+
 
 CREATE TABLE posts (
     post_id INTEGER PRIMARY KEY,
@@ -7,6 +7,7 @@ CREATE TABLE posts (
     content TEXT NOT NULL
 
 );
+
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -19,6 +20,7 @@ CREATE TABLE users (
 
 
 );
+
 DROP TABLE IF EXISTS comments;
 CREATE TABLE comments (
     comment_id INTEGER PRIMARY KEY,
