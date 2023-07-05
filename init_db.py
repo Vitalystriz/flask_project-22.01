@@ -9,8 +9,8 @@ cursor=connection.cursor()
 # cursor.execute("INSERT INTO posts (title,content) VALUES(?,?)",("Пост1 "," Контент"))
 # cursor=connection.cursor()
 # cursor.execute("INSERT INTO posts (title,content) VALUES(?,?)",("Пост2 "," Контент2"))
-# cursor=connection.cursor()
-# cursor.execute("INSERT INTO comments (post_id,content) VALUES(?,?)",(1," Комент"))
+cursor=connection.cursor()
+cursor.execute("INSERT INTO comments (post_id,content) VALUES(?,?)",(1," Комент"))
 
 for row in cursor.execute("SELECT * FROM users"):
     print(row)

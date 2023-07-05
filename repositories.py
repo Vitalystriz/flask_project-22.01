@@ -81,14 +81,14 @@ def get_user_hash(name):
 
     conn = get_db_connection()
     cursor = conn.cursor()
-    result = cursor.execute("SELECT * FROM users WHERE name=?",(name,)).fetchone()
-    print(result)
+    result = cursor.execute("SELECT * FROM users WHERE name=?",(name,)).fetchone() #fetchone
+    res = cursor.execute("SELECT * FROM users WHERE name=?",(name,)).fetchall()
     password = conn.execute("SELECT password_hash FROM users WHERE name=? ",(name,)).fetchone()
-    print(password)
+
 
     rows = result[3]
     # password_hash = conn.execute("SELECT * FROM users WHERE name=?",(name,)).fetchall()
-    print(rows)
+    print(res)
     print("pas")
 
     conn.close()
